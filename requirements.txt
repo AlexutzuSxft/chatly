@@ -1,0 +1,4 @@
+Flask>=1.1.2
+Flask-Cors>=3.0.8
+requests>=2.23.0
+cryptography>=3.1

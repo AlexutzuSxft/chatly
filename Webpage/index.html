@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatly</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css" id="light-code-theme" disabled>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="auth-title">Login</h2>
+            </div>
+            <div class="modal-body">
+                <form id="auth-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div id="confirm-password-group" class="form-group hidden">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password">
+                    </div>
+                    <div class="auth-buttons">
+                        <button type="submit" id="auth-submit">Login</button>
+                    </div>
+                </form>
+                <div class="auth-switch">
+                    <p id="auth-switch-text">Don't have an account? <a href="#" id="auth-switch-link">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="theme-select">Theme</label>
+                        <select id="theme-select" name="theme">
+                            <option value="dark">Dark</option>
+                            <option value="light">Light</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="model-select">AI Model</label>
+                        <select id="model-select" name="model">
+                            <option value="deepseek-coder:latest">DeepSeek Coder</option>
+                            <option value="deepseek-r1:8b">DeepSeek</option>
+                            <option value="gemma3:1b">Gemma</option>
+                            <option value="codellama:latest">CodeLlama</option>
+                            <option value="mistral:latest">Mistral</option>
+                            <option value="phi4-mini:latest">Phi4 Mini</option>
+                            <option value="phi4:latest">Phi4</option>
+                            <option value="phi3:3.8b">Phi3</option>
+                            <option value="phi:latest">Phi2</option>
+                            <option value="tinystories">TinyStories</option>
+                            <option value="tinyllama:latest">TinyLlama</option>
+                            <option value="llama2-uncensored:latest">Llama2 Uncensored</option>
+                            <option value="llava:7b">LLava</option>
+                            <option value="smollm:1.7b">Smollm 1.7B</option>
+                            <option value="smollm:135m">Smollm 135M</option>
+                            <option value="qwen3:8b">Qwen3 8B</option>
+                            <option value="qwen3:0.6b">Qwen3 0.6B</option>
+                            <option value="deepscaler:latest">Deepscaler</option>
+                            <option value="dolphin-mistral:latest">Dolphin Mistral</option>
+                            <option value="dolphin-phi:latest">Dolphin Phi</option>
+                        </select>
+                    </div>                                   
+                        <p class="model-info">Select which AI model to use for responses. Different models have different capabilities.</p>
+                    </div>
+
+                    <h3>Change Password</h3>
+                    <div class="form-group">
+                        <label for="old-password">Current Password</label>
+                        <input type="password" id="old-password" name="old-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" name="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password">
+                    </div>
+                    <div class="settings-buttons">
+                        <button type="submit" id="settings-submit">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Chat Modal -->
+    <div id="rename-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Rename Chat</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="rename-form">
+                    <div class="form-group">
+                        <label for="new-chat-title">Chat Title</label>
+                        <input type="text" id="new-chat-title" name="new-chat-title" required>
+                    </div>
+                    <div class="rename-buttons">
+                        <button type="submit" id="rename-submit">Rename</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Layout -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <button id="new-chat-btn" class="new-chat-button">
+                    <i class="fas fa-plus"></i> New Chat
+                </button>
+            </div>
+            <div class="chat-list" id="chat-list">
+                <!-- Chat items will be added here via JavaScript -->
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span id="user-display">Logged in as: <span id="username-display">User</span></span>
+                </div>
+                <div class="footer-buttons">
+                    <button id="settings-btn" class="icon-button">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="logout-btn" class="icon-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+                <button id="clear-chats-btn" class="clear-chats-button">
+                    <i class="fas fa-trash"></i> Clear All Chats
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2 id="current-chat-title">New Chat</h2>
+                <div class="chat-actions">
+                    <button id="rename-chat-btn" class="icon-button hidden">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="messages-container" id="messages-container">
+                <div id="welcome-screen" class="welcome-screen">
+                    <h1>Welcome to Chatly</h1>
+                    <p>Start a conversation with your AI assistant, fully local, fully private.</p>
+                </div>
+                <div id="messages" class="messages">
+                    <!-- Messages will be added here via JavaScript -->
+                </div>
+            </div>
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <button id="attach-file-btn" class="attach-button">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <textarea id="message-input" placeholder="Send a message..." rows="1"></textarea>
+                    <button id="send-button" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="file-preview" class="file-preview hidden">
+                    <div class="file-preview-header">
+                        <span id="file-name">filename.txt</span>
+                        <button id="remove-file-btn" class="remove-file-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="file-content-preview" class="file-content-preview">
+                        File content preview...
+                    </div>
+                </div>
+                <input type="file" id="file-input" class="hidden" accept=".txt,.js,.py,.html,.css,.json,.md,.csv">
+                <div class="input-info">
+                    <p>AI Model: <span id="current-model-display">Gemma</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- code‐formatting libraries (needed for scripts.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- the application js code -->
+    <script src="scripts.js"></script>
+</body>
+</html>
