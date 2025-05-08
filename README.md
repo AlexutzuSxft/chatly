@@ -80,7 +80,6 @@ It securely handles sessions, supports encryption, and uses Fernet for data secu
 ## 💻 Credits
 
 - @AlexutzuSxft, main developer of the web-app.
-- 
 
 ---
 
