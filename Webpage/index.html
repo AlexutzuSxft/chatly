@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <!-- <link rel="icon" type="image/png" href="assets/logo.png"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css" id="light-code-theme" disabled>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -35,6 +36,12 @@
                         <button type="submit" id="auth-submit">Login</button>
                     </div>
                 </form>
+                <div class="auth-toggle-container">
+                    <div class="toggle-switch" id="auth-toggle">
+                        <div class="toggle-option login active">Login</div>
+                        <div class="toggle-option register">Register</div>
+                    </div>
+                </div>
                 <div class="auth-switch">
                     <p id="auth-switch-text">Don't have an account? <a href="#" id="auth-switch-link">Register</a></p>
                 </div>
@@ -44,66 +51,247 @@
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content settings-modal-content">
             <div class="modal-header">
-                <h2>Settings</h2>
+                <h2><i class="fas fa-cog"></i> Settings</h2>
                 <span class="close">&times;</span>
             </div>
-            <div class="modal-body">
-                <form id="settings-form">
-                    <div class="form-group">
-                        <label for="theme-select">Theme</label>
-                        <select id="theme-select" name="theme">
-                            <option value="dark">Dark</option>
-                            <option value="light">Light</option>
-                        </select>
+            <div class="modal-body settings-body">
+                <div class="settings-sidebar">
+                    <div class="settings-nav">
+                        <div class="settings-nav-item active" data-target="appearance">
+                            <i class="fas fa-palette"></i> Appearance
+                        </div>
+                        <div class="settings-nav-item" data-target="model">
+                            <i class="fas fa-robot"></i> AI Model
+                        </div>
+                        <div class="settings-nav-item" data-target="interface">
+                            <i class="fas fa-desktop"></i> Interface
+                        </div>
+                        <div class="settings-nav-item" data-target="account">
+                            <i class="fas fa-user-shield"></i> Account
+                        </div>
+                        <div class="settings-nav-item" data-target="about">
+                            <i class="fas fa-info-circle"></i> About
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="model-select">AI Model</label>
-                        <select id="model-select" name="model">
-                            <option value="deepseek-coder:latest">DeepSeek Coder</option>
-                            <option value="deepseek-r1:8b">DeepSeek</option>
-                            <option value="gemma3:1b">Gemma</option>
-                            <option value="codellama:latest">CodeLlama</option>
-                            <option value="mistral:latest">Mistral</option>
-                            <option value="phi4-mini:latest">Phi4 Mini</option>
-                            <option value="phi4:latest">Phi4</option>
-                            <option value="phi3:3.8b">Phi3</option>
-                            <option value="phi:latest">Phi2</option>
-                            <option value="tinystories">TinyStories</option>
-                            <option value="tinyllama:latest">TinyLlama</option>
-                            <option value="llama2-uncensored:latest">Llama2 Uncensored</option>
-                            <option value="llava:7b">LLava</option>
-                            <option value="smollm:1.7b">Smollm 1.7B</option>
-                            <option value="smollm:135m">Smollm 135M</option>
-                            <option value="qwen3:8b">Qwen3 8B</option>
-                            <option value="qwen3:0.6b">Qwen3 0.6B</option>
-                            <option value="deepscaler:latest">Deepscaler</option>
-                            <option value="dolphin-mistral:latest">Dolphin Mistral</option>
-                            <option value="dolphin-phi:latest">Dolphin Phi</option>
-                        </select>
-                    </div>                                   
-                        <p class="model-info">Select which AI model to use for responses. Different models have different capabilities.</p>
-                    </div>
+                </div>
+                
+                <div class="settings-content">
+                    <form id="settings-form">
+                        <!-- Appearance Section -->
+                        <div class="settings-section active" id="appearance-section">
+                            <h3>Theme Selection</h3>
+                            
+                            <div class="theme-preview-container">
+                                <div class="theme-preview" data-theme="dark-blue">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Blue</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-green">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Green</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-purple">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Purple</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-teal">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Teal</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-orange">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Orange</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-rose">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Rose</span>
+                                </div>
+                                <div class="theme-preview" data-theme="dark-monochrome">
+                                    <div class="theme-color primary"></div>
+                                    <div class="theme-color secondary"></div>
+                                    <div class="theme-color accent"></div>
+                                    <span>Monochrome</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="theme-select">Base Mode</label>
+                                <select id="theme-select" name="theme">
+                                    <option value="dark">Dark</option>
+                                    <option value="light">Light</option>
+                                </select>
+                            </div>
+                            
 
-                    <h3>Change Password</h3>
-                    <div class="form-group">
-                        <label for="old-password">Current Password</label>
-                        <input type="password" id="old-password" name="old-password">
-                    </div>
-                    <div class="form-group">
-                        <label for="new-password">New Password</label>
-                        <input type="password" id="new-password" name="new-password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-new-password">Confirm New Password</label>
-                        <input type="password" id="confirm-new-password" name="confirm-new-password">
-                    </div>
-                    <div class="settings-buttons">
-                        <button type="submit" id="settings-submit">Save Changes</button>
-                    </div>
-                </form>
+                            <!-- Glassmorphism Effect toggle, broken currently -->
+                             
+                            <!-- <div class="form-group toggle-container">
+                                <label>Glassmorphism Effects</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="glassmorphism-toggle" name="glassmorphism" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div> -->
+                            
+                            <div class="form-group toggle-container">
+                                <label>Animation Effects</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="animations-toggle" name="animations" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Model Section -->
+                        <div class="settings-section" id="model-section">
+                            <h3>AI Model Settings</h3>
+                            
+                            <div class="form-group">
+                                <label for="model-select">AI Model</label>
+                                <select id="model-select" name="model">
+                                    <option value="deepseek-coder:latest">DeepSeek Coder</option>
+                                    <option value="deepseek-r1:8b">DeepSeek</option>
+                                    <option value="gemma3:1b">Gemma</option>
+                                    <option value="codellama:latest">CodeLlama</option>
+                                    <option value="mistral:latest">Mistral</option>
+                                    <option value="phi4-mini:latest">Phi4 Mini</option>
+                                    <option value="phi4:latest">Phi4</option>
+                                    <option value="phi3:3.8b">Phi3</option>
+                                    <option value="phi:latest">Phi2</option>
+                                    <option value="tinystories">TinyStories</option>
+                                    <option value="tinyllama:latest">TinyLlama</option>
+                                    <option value="llama2-uncensored">Llama2 Uncensored</option>
+                                    <option value="llava:7b">LLava</option>
+                                    <option value="smollm:1.7b">Smollm 1.7B</option>
+                                    <option value="smollm:135m">Smollm 135M</option>
+                                    <option value="qwen3:8b">Qwen3 8B</option>
+                                    <option value="qwen3:0.6b">Qwen3 0.6B</option>
+                                    <option value="deepscaler:latest">Deepscaler</option>
+                                    <option value="dolphin-mistral:latest">Dolphin Mistral</option>
+                                    <option value="dolphin-phi:latest">Dolphin Phi</option>
+                                </select>
+                            </div>
+                            
+                            <p class="model-info">Select which AI model to use for responses. Different models have different capabilities and performance characteristics.</p>
+                        </div>
+                        
+                        <!-- Interface Section -->
+                        <div class="settings-section" id="interface-section">
+                            <h3>Interface Settings</h3>
+                            
+                            <div class="form-group toggle-container">
+                                <label>Show Code Line Numbers</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="line-numbers-toggle" name="line-numbers" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group toggle-container">
+                                <label>Auto-scroll to Latest Message</label>
+                                <label class="toggle">
+                                    <input type="checkbox" id="auto-scroll-toggle" name="auto-scroll" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group select-container">
+                                <label for="font-size-select">Font Size</label>
+                                <select id="font-size-select" name="font-size">
+                                    <option value="small">Small</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Section -->
+                        <div class="settings-section" id="account-section">
+                            <h3>Change Password</h3>
+                            
+                            <div class="form-group">
+                                <label for="old-password">Current Password</label>
+                                <input type="password" id="old-password" name="old-password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" name="new-password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm-new-password">Confirm New Password</label>
+                                <input type="password" id="confirm-new-password" name="confirm-new-password">
+                            </div>
+                            
+                            <h3>Data Management</h3>
+                            
+                            <div class="form-group">
+                                <button type="button" id="export-data-btn" class="secondary-button">
+                                    <i class="fas fa-download"></i> Export Chat History
+                                </button>
+                            </div>
+                            
+                            <h3>Delete Account</h3>
+                            <p class="warning-text">This action is permanent and cannot be undone. All your data will be lost.</p>
+                            
+                            <div class="form-group">
+                                <label for="delete-account-password">Enter your password to confirm</label>
+                                <input type="password" id="delete-account-password" name="delete-account-password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="button" id="delete-account-btn" class="danger-button">
+                                    <i class="fas fa-user-slash"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- About Section -->
+                        <div class="settings-section" id="about-section">
+                            <h3>About Chatly</h3>
+                            
+                            <div class="about-info">
+                                <p><strong>Version:</strong> 1.2.0</p>
+                                <p><strong>Created by:</strong> AlexutzuSoft</p>
+                                <p class="about-description">Chatly is a fully local AI chat application that respects your privacy while providing powerful conversation capabilities.</p>
+                            </div>
+                            
+                            <h3>Resources</h3>
+                            
+                            <div class="resource-links">
+                                <a href="https://github.com/AlexutzuSxft/chatly/blob/main/README.md" class="resource-link">
+                                    <i class="fas fa-book"></i> Documentation
+                                </a>
+                                <a href="https://github.com/AlexutzuSxft/chatly/" class="resource-link">
+                                    <i class="fab fa-github"></i> Source Code
+                                </a>
+                                <a href="https://github.com/AlexutzuSxft/chatly/issues" class="resource-link">
+                                    <i class="fas fa-bug"></i> Report Issue
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-buttons">
+                            <button type="button" id="settings-reset" class="secondary-button">Reset to Default</button>
+                            <button type="submit" id="settings-submit">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -129,13 +317,31 @@
         </div>
     </div>
 
+    <!-- Confirmation Dialog Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-modal-content">
+            <div class="modal-header">
+                <h2 id="confirm-title">Confirm Action</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Are you sure you want to proceed with this action?</p>
+                <div class="confirm-buttons">
+                    <button id="confirm-cancel" class="cancel-button">Cancel</button>
+                    <button id="confirm-ok" class="danger-button">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main App Layout -->
     <div class="app-container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <button id="new-chat-btn" class="new-chat-button">
-                    <i class="fas fa-plus"></i> New Chat
+                    <i class="fas fa-plus"></i>
+                    <span>New Chat</span>
                 </button>
             </div>
             <div class="chat-list" id="chat-list">
@@ -164,6 +370,13 @@
             <div class="chat-header">
                 <h2 id="current-chat-title">New Chat</h2>
                 <div class="chat-actions">
+                    <button id="shortcuts-btn" class="shortcuts-btn icon-button" title="Keyboard Shortcuts">
+                        <i class="fas fa-keyboard"></i>
+                    </button>
+                    <button id="theme-toggle-btn" class="theme-toggle-btn icon-button" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </button>
                     <button id="rename-chat-btn" class="icon-button hidden">
                         <i class="fas fa-edit"></i>
                     </button>
@@ -171,6 +384,7 @@
             </div>
             <div class="messages-container" id="messages-container">
                 <div id="welcome-screen" class="welcome-screen">
+                    <!-- <img src="Assets/logo.png" alt="Chatly Logo" class="welcome-logo"> -->
                     <h1>Welcome to Chatly</h1>
                     <p>Start a conversation with your AI assistant, fully local, fully private.</p>
                 </div>
@@ -179,11 +393,40 @@
                 </div>
             </div>
             <div class="input-container">
+                <div class="markdown-toolbar">
+                    <button type="button" class="format-btn" data-format="bold" title="Bold (Ctrl+B)">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="italic" title="Italic (Ctrl+I)">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="heading" title="Heading (Ctrl+H)">
+                        <i class="fas fa-heading"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="code" title="Code (Ctrl+K)">
+                        <i class="fas fa-code"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="codeblock" title="Code Block (Ctrl+Shift+K)">
+                        <i class="fas fa-file-code"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="link" title="Link (Ctrl+L)">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="list" title="List (Ctrl+U)">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button type="button" class="format-btn" data-format="quote" title="Quote (Ctrl+Q)">
+                        <i class="fas fa-quote-right"></i>
+                    </button>
+                </div>
                 <div class="input-wrapper">
                     <button id="attach-file-btn" class="attach-button">
                         <i class="fas fa-paperclip"></i>
                     </button>
                     <textarea id="message-input" placeholder="Send a message..." rows="1"></textarea>
+                    <button id="voice-input-btn" class="voice-input-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
                     <button id="send-button" disabled>
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -206,11 +449,119 @@
             </div>
         </div>
     </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div id="shortcuts-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Keyboard Shortcuts</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="shortcuts-grid">
+                    <div class="shortcut-group">
+                        <h3>Navigation</h3>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>N</kbd></span>
+                            <span class="shortcut-desc">New Chat</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>S</kbd></span>
+                            <span class="shortcut-desc">Settings</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>↑</kbd></span>
+                            <span class="shortcut-desc">Previous Chat</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>↓</kbd></span>
+                            <span class="shortcut-desc">Next Chat</span>
+                        </div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h3>Editing</h3>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>B</kbd></span>
+                            <span class="shortcut-desc">Bold</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>I</kbd></span>
+                            <span class="shortcut-desc">Italic</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+                            <span class="shortcut-desc">Inline Code</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd></span>
+                            <span class="shortcut-desc">Code Block</span>
+                        </div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h3>Messages</h3>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
+                            <span class="shortcut-desc">Send Message</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Esc</kbd></span>
+                            <span class="shortcut-desc">Cancel Reply</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>R</kbd></span>
+                            <span class="shortcut-desc">Regenerate Answer</span>
+                        </div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h3>Theme</h3>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>D</kbd></span>
+                            <span class="shortcut-desc">Toggle Dark/Light</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd></span>
+                            <span class="shortcut-desc">Theme Test Panel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container" class="toast-container"></div>
+
+    <!-- Theme testing panel - for debugging only -->
+    <div id="theme-test-panel" style="position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 8px; z-index: 9999; display: none;">
+        <h4 style="margin-top: 0; color: white;">Theme Test</h4>
+        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+            <button onclick="document.body.setAttribute('data-theme', 'blue')">Blue</button>
+            <button onclick="document.body.setAttribute('data-theme', 'green')">Green</button>
+            <button onclick="document.body.setAttribute('data-theme', 'purple')">Purple</button>
+            <button onclick="document.body.setAttribute('data-theme', 'teal')">Teal</button>
+            <button onclick="document.body.setAttribute('data-theme', 'orange')">Orange</button>
+            <button onclick="document.body.setAttribute('data-theme', 'rose')">Rose</button>
+            <button onclick="document.body.setAttribute('data-theme', 'monochrome')">Mono</button>
+        </div>
+        <div style="margin-top: 5px;">
+            <button onclick="document.body.classList.toggle('light-theme')">Toggle Light/Dark</button>
+            <button onclick="document.getElementById('theme-test-panel').style.display = 'none'">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        // Press Ctrl+Alt+T to show the theme test panel
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.altKey && e.key === 't') {
+                const panel = document.getElementById('theme-test-panel');
+                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+    </script>
 
     <!-- code‐formatting libraries (needed for scripts.js) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- the application js code -->
     <script src="scripts.js"></script>
 </body>
